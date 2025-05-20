@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Digital Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #1b0d25, #386088);
+      color: #fff;
+      padding: 2rem;
+      line-height: 1.6;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    body.light-mode {
+      background: #f8f9fa;
+      color: #2d3748;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #a0aec0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #9370db;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(147, 112, 219, 0.6);
+    }
+
+    .profile-container {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #9370db;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .profile-container:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .toggle-theme {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: #9370db;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-theme:hover {
+      background: #7a68b1;
+    }
+
+    section {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    body.light-mode section {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      border-bottom: 2px solid #9370db;
+      display: inline-block;
+    }
+
+    .projects, .contact-info, .skills-list, .education-list, .testimonials, .interests, .experience-list, .projects-container {
+      display: grid;
+      gap: 1rem;
+    }
+    
+    .certifications-grid, .gallery {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding: 1rem 0;
+      scroll-snap-type: x mandatory;
+    }
+    
+    .certification, .gallery img {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+    }
+
+    .project, .skill, .education, .testimonial, .interest, .experience-item, .certification, .project-card {
+      background: rgba(26, 42, 44, 0.8);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(147, 112, 219, 0.3);
+    }
+
+    .project-tech {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+    }
+
+    .tech-tag {
+      background: rgba(147, 112, 219, 0.2);
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+    }
+
+    body.light-mode .project, 
+    body.light-mode .skill, 
+    body.light-mode .education, 
+    body.light-mode .testimonial,
+    body.light-mode .interest,
+    body.light-mode .experience-item,
+    body.light-mode .certification {
+      background: #fff;
+    }
+
+    .project h3, .skill h3, .education h3, .interest h3, .experience-item h3, .certification h3 {
+      color: #9370db;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      color: #718096;
+    }
+
+    .resume-download {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .resume-download a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: #9370db;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      transition: background 0.3s;
+    }
+
+    .resume-download a:hover {
+      background: #7a68b1;
+    }
+
+    /* New styles for interests section */
+    .interests {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .interest {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1.5rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .interest:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .interest-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* New styles for skills section */
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .skill-card {
+      background: rgba(26, 42, 44, 0.8);
+      padding: 1.5rem;
+      border-radius: 0.8rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    body.light-mode .skill-card {
+      background: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .skill-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(147, 112, 219, 0.3);
+    }
+
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-card h3 {
+      color: #9370db;
+      margin: 0.5rem 0;
+    }
+
+    .skill-card p {
+      color: #a0aec0;
+      font-size: 0.9rem;
+    }
+
+    button.read-more {
+      background: #9370db;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 1.5rem;
+    }
+
+    /* Animation styles */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(2) { animation-delay: 0.2s; }
+    section:nth-child(3) { animation-delay: 0.3s; }
+    section:nth-child(4) { animation-delay: 0.4s; }
+    section:nth-child(5) { animation-delay: 0.5s; }
+    section:nth-child(6) { animation-delay: 0.6s; }
+    section:nth-child(7) { animation-delay: 0.7s; }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <img src="profile.jpg" alt="Profile Photo" class="profile-photo">
+  </div>
+  <div class="toggle-theme" onclick="toggleTheme()">
+    <i class="fas fa-sun" id="theme-icon"></i>
+  </div>
+  <header>
+    <h1>My Digital Portfolio</h1>
+    <p>Web Developer | Designer </p>
+  </header>
+
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#certifications">Certifications</a>
+   
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <div class="about-content">
+      <p>Hello! I'm Vyankatesh Sanjay Kulkarni</p>
+      <p>My Major Skills Include:</p>
+      <div class="skills-container">
+        <div class="skill-card">
+          <div class="skill-icon">🖥</div>
+          <h3>HTML/CSS</h3>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">💻</div>
+          <h3>C</h3>
+          <p>Advanced</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🐍</div>
+          <h3>Python</h3>
+        </div>
+    </div>
+  </section>
+
+<section id="projects" class="projects-wrapper">
+    <h2>Projects</h2>
+    <div class="projects-container">
+      <div class="project-card" onclick="showProjectDetails('project1')">
+        <h3>Datathon Competition</h3>
+        <p>A modern landing page with participant dashboard.</p>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+          <span class="tech-tag">JS</span>
+        </div>
+        
+      </div>
+      
+      <div class="project-card" onclick="showProjectDetails('project2')">
+        <h3>Interactive Portfolio Builder</h3>
+        <p>A dynamic portfolio  with customizable templates.</p>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+        </div>
+        
+      </div>
+      
+      <div class="project-card" onclick="showProjectDetails('project3')">
+        <h3>Small project using Teachable Machines</h3>
+        <p>Teachable machine use training data to recognize patterns and predict.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Teachable Machine website</span>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills-container">
+      <div class="skill-card">
+        <h3>Frontend</h3>
+        <p>HTML, CSS</p>
+      </div>
+      <div class="skill-card">
+        <h3>Tools</h3>
+        <p>VS Code</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+    <div class="education-list">
+      <div class="education">
+        <h3>MIT Academy of Engineering</h3>
+        <p>Bachelor of Technology in Computer Science</p>
+        <p>2024 - Present | CGPA: 8.8</p>
+      </div>
+      <div class="education">
+        <h3>Higher Secondary (12th Grade)</h3>
+        <p>Science Stream (PCM)</p>
+        <p>2022 - 2024 | Percentile: 93%</p>
+      </div>
+    </div>
+  </section>
+
+ 
+
+  <section id="certifications">
+    <h2 onclick="toggleSection('certifications-content', this)">Certifications ▼</h2>
+    <div id="certifications-content" class="certifications-grid" style="display: none;">
+      <div class="certification">
+        <img src="pythonbasics.jpg" alt="Python basics Certification">
+        <h3>Python Specialist</h3>
+        <p>Issued: March 2025</p>
+      </div>
+      <div class="certification">
+        <img src="datathon.jpg" alt="Datathon Participation">
+        <h3>Datathon Participation</h3>
+        <p>Issued: April 2025</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function toggleSection(sectionId, heading) {
+      const section = document.getElementById(sectionId);
+      if (section.style.display === 'none') {
+        section.style.display = 'flex';
+        heading.innerHTML = heading.innerHTML.replace('▼', '▲');
+      } else {
+        section.style.display = 'none';
+        heading.innerHTML = heading.innerHTML.replace('▲', '▼');
+      }
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const themeIcon = document.getElementById('theme-icon');
+      body.classList.toggle('light-mode');
+      
+      if (body.classList.contains('light-mode')) {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      } else {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      }
+    }
+
+    function toggleDetails(button) {
+      const details = button.previousElementSibling;
+      if (details.style.display === 'none') {
+        details.style.display = 'block';
+        button.textContent = 'Hide Details';
+      } else {
+        details.style.display = 'none';
+        button.textContent = 'Show Details';
+      }
+    }
+
+    function toggleReadMore(id) {
+      const element = document.getElementById(id);
+      const button = element.previousElementSibling;
+      if (element.style.display === 'none') {
+        element.style.display = 'block';
+        button.textContent = 'Read Less';
+      } else {
+        element.style.display = 'none';
+        button.textContent = 'Read More';
+      }
+    }
+
+    function showProjectDetails(id) {
+      const details = document.getElementById(id);
+      details.style.display = details.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Animate skill bars on scroll
+    function animateSkills() {
+      const skills = document.querySelectorAll('.progress');
+      skills.forEach(skill => {
+        const width = skill.style.width;
+        skill.style.width = '0';
+        setTimeout(() => {
+          skill.style.width = width;
+        }, 100);
+      });
+    }
+
+    // Initialize animations when skills section is visible
+    const skillsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateSkills();
+          skillsObserver.unobserve(entry.target);
+        }
+      });
+    });
+
+    document.querySelectorAll('.skills-meter').forEach(section => {
+      skillsObserver.observe(section);
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+      section.style.opacity = 0;
+      section.style.transform = 'translateY(20px)';
+      section.style.transition = 'all 0.6s ease-out';
+      observer.observe(section);
+    });
+  </script>
+
+  
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="contact-info">
+      <p>Email: 20240104134@mitaoe.ac.in</p>
+      <p>GitHub: Vyankatesh1905 </p>
+      <p>Phone: +91 9881848881</p>
+    </div>
+
+  <footer>
+    <p>&copy; 2025 Vyankatesh Kulkarni.</p>
+  </footer>
+</body>
+</html>
